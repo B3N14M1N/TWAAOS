@@ -1,8 +1,22 @@
-# App FastAPI - laborator 3
+# App FastAPI - laboratoarele 3 + 4
 
-Aplicatia implementeaza un task manager cu SQLite, JWT, CRUD protejat, endpoint PATCH de finalizare rapida si filtrare pentru sarcini nefinalizate.
+Aplicatia implementeaza un task manager cu SQLite, JWT, CRUD protejat, endpoint PATCH de finalizare rapida, filtrare pentru sarcini nefinalizate si o interfata web completa.
 
 Proiectul este organizat pe layere, pregatit pentru extindere ulterioara cu Alembic, fara a adauga complexitate inutila.
+
+## Interfata web (Lab 4)
+
+Interfata este in directorul web si acopera flux complet:
+
+- inregistrare si autentificare
+- listare sarcini cu filtru server-side pentru nefinalizate
+- cautare client-side dupa titlu
+- creare, editare inline, finalizare, stergere cu confirmare
+- statistici rapide (total, in progres, finalizate)
+- notificari toast reutilizabile pentru succes/eroare/atentie
+- refresh automat al paginii cand detecteaza schimbari in fisierele frontend
+
+UI este responsive si servit direct de FastAPI la ruta /web/index.html.
 
 ## Structura pe layere
 
@@ -29,6 +43,9 @@ Structura actuala:
 - core/exceptions.py
 - schemas/auth.py
 - schemas/task.py
+- web/index.html
+- web/assets/styles.css
+- web/assets/app.js
 
 ## Rulare (din app)
 
@@ -58,6 +75,14 @@ export SECRET_KEY="alta-cheie"
 Swagger UI:
 - http://127.0.0.1:8000/docs
 
+Interfata web:
+- http://127.0.0.1:8000/
+- http://127.0.0.1:8000/web/index.html
+
+Alternativ pentru laborator (Live Server in VS Code):
+- deschide web/index.html prin Live Server (implicit 5500)
+- CORS pentru localhost:5500 si 127.0.0.1:5500 este deja configurat
+
 ## Endpoint-uri
 
 - POST /inregistrare
@@ -68,6 +93,12 @@ Swagger UI:
 - PUT /sarcini/{sarcina_id}
 - PATCH /sarcini/{sarcina_id}/finalizeaza
 - DELETE /sarcini/{sarcina_id}
+
+## Note pentru frontend
+
+- autentificarea foloseste OAuth2PasswordRequestForm, deci /autentificare primeste application/x-www-form-urlencoded
+- token-ul JWT se salveaza in localStorage si este trimis prin header Authorization: Bearer
+- endpoint-ul GET /sarcini suporta query param doar_nefinalizate=true
 
 ## Observatii de design
 
