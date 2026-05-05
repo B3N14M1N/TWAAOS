@@ -1,12 +1,12 @@
-# App FastAPI - laboratoarele 3 + 4
+# App FastAPI - laboratoarele 3 + 4 + 5
 
-Aplicatia implementeaza un task manager cu SQLite, JWT, CRUD protejat, endpoint PATCH de finalizare rapida, filtrare pentru sarcini nefinalizate si o interfata web completa.
+Aplicatia implementeaza un task manager cu SQLite, JWT, CRUD protejat, endpoint PATCH de finalizare rapida, filtrare pentru sarcini nefinalizate, interfata web completa si configurare pregatita pentru deployment.
 
 Proiectul este organizat pe layere, pregatit pentru extindere ulterioara cu Alembic, fara a adauga complexitate inutila.
 
 ## Interfata web (Lab 4)
 
-Interfata este in directorul web si acopera flux complet:
+Interfata este in directorul static si acopera flux complet:
 
 - inregistrare si autentificare
 - listare sarcini cu filtru server-side pentru nefinalizate
@@ -16,7 +16,7 @@ Interfata este in directorul web si acopera flux complet:
 - notificari toast reutilizabile pentru succes/eroare/atentie
 - refresh automat al paginii cand detecteaza schimbari in fisierele frontend
 
-UI este responsive si servit direct de FastAPI la ruta /web/index.html.
+UI este responsive si servit direct de FastAPI la ruta /. Frontend-ul foloseste URL-uri relative pentru API.
 
 ## Structura pe layere
 
@@ -43,9 +43,13 @@ Structura actuala:
 - core/exceptions.py
 - schemas/auth.py
 - schemas/task.py
-- web/index.html
-- web/assets/styles.css
-- web/assets/app.js
+- static/index.html
+- static/assets/styles.css
+- static/assets/app.js
+- render.yaml
+- Dockerfile
+- docker-compose.yml
+- .dockerignore
 
 ## Rulare (din app)
 
@@ -77,11 +81,6 @@ Swagger UI:
 
 Interfata web:
 - http://127.0.0.1:8000/
-- http://127.0.0.1:8000/web/index.html
-
-Alternativ pentru laborator (Live Server in VS Code):
-- deschide web/index.html prin Live Server (implicit 5500)
-- CORS pentru localhost:5500 si 127.0.0.1:5500 este deja configurat
 
 ## Endpoint-uri
 
@@ -99,6 +98,7 @@ Alternativ pentru laborator (Live Server in VS Code):
 - autentificarea foloseste OAuth2PasswordRequestForm, deci /autentificare primeste application/x-www-form-urlencoded
 - token-ul JWT se salveaza in localStorage si este trimis prin header Authorization: Bearer
 - endpoint-ul GET /sarcini suporta query param doar_nefinalizate=true
+- API-ul este apelat prin URL relativ (const API_BASE = "")
 
 ## Observatii de design
 
@@ -127,3 +127,10 @@ Alternativ pentru laborator (Live Server in VS Code):
 		"timestamp": "..."
 	}
 }
+
+## Deployment (Lab 5)
+
+- configuratia sensibila vine din .env (SECRET_KEY, ALGORITHM, EXPIRARE_TOKEN_MINUTE, DATABASE_PATH)
+- Render foloseste render.yaml pentru build si start command
+- endpoint de health check: /healthz
+- Docker este disponibil prin Dockerfile si docker-compose.yml

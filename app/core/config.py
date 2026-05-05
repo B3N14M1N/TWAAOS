@@ -30,8 +30,8 @@ def get_settings() -> Settings:
     return Settings(
         app_name="Gestionar de sarcini",
         app_version="4.0.0",
-        database_path=str(base_dir / "sarcini.db"),
+        database_path=os.getenv("DATABASE_PATH", str(base_dir / "sarcini.db")),
         secret_key=_required_env("SECRET_KEY"),
-        jwt_algorithm="HS256",
-        token_expiry_minutes=30,
+        jwt_algorithm=os.getenv("ALGORITHM", "HS256"),
+        token_expiry_minutes=int(os.getenv("EXPIRARE_TOKEN_MINUTE", "30")),
     )

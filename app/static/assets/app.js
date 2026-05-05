@@ -1,7 +1,7 @@
 (() => {
     "use strict";
 
-    const API_BASE = `${window.location.protocol}//${window.location.hostname}:8000`;
+    const API_BASE = "";
     const RELOAD_CHECK_INTERVAL_MS = 1200;
     const UI_PREFS_KEY = "taskflow_ui_prefs_v1";
 
@@ -206,7 +206,7 @@
         }
 
         getWebVersion() {
-            return this.request("/web/version", { method: "GET" }, false);
+            return this.request("/version", { method: "GET" }, false);
         }
     }
 
